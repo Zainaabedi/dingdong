@@ -1,0 +1,41 @@
+import numpy as np
+import pandas as pd
+from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+data={
+ 'outlook':
+['sunny','sunny','overcast','rainy','rainy','rainy','overcast','sunny','sunny','r
+ainy','sunny','overcast','overcast','rainy'],
+ 'temp':
+['hot','hot','hot','mild','cool','cool','cool','mild','cool','mild','mild','mild','h
+ot','mild'],
+ 'humidity':
+['high','high','high','high','normal','normal','normal','high','normal','norm
+al','normal','high','normal','high'],
+ 'windy':
+['false','true','false','false','false','true','true','false','false','false','true','tru
+e','false','true'],
+ 'play':
+['no','no','yes','yes','yes','no','yes','no','yes','yes','yes','yes','yes','no']
+}
+df=pd.DataFrame(data)
+df
+df_c=df.astype('category')
+df_c["outlook"]=df_c["outlook"].cat.codes
+df_c["temp"]=df_c["temp"].cat.codes
+df_c["humidity"]=df_c["humidity"].cat.codes
+df_c["windy"]=df_c["windy"].cat.codes
+df_c["play"]=df_c["play"].cat.codes
+df_c.head(14)
+X=df_c.iloc[:,:4].values
+X
+Y=df_c.iloc[:,4].values
+Y
+X_train,X_test,y_train,y_test=train_test_split(X,Y,test_size=0.2,random_s
+tate=45)
+print(X_train.shape,y_train.shape)
+model=GaussianNB()
+model.fit(X_train,y_train)
+predicted=model.predict([[0,2,2,1]])
+print("Predicted value: ",predicted)
