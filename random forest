@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import
+RandomizedSearchCV,train_test_split
+bank_data=pd.read_csv(r"bank.csv")
+bank_data=bank_data.loc[:,['age','default','cons.price.idx','cons.conf.idx',
+'y']]
+bank_data.head(5)
+bank_data['default']=bank_data['default'].map({'no':0,'yes':1,'unknown':
+0})
+bank_data['y']=bank_data['y'].map({'no':0,'yes':1})
+X=bank_data.drop('y',axis=1)
+y=bank_data['y']
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2)
+rf=RandomForestClassifier()
+rf.fit(X_train,y_train)
+row=[[1,57,0,93.994]]
+y_pred=rf.predict(row)
+print('Prediction: ',y_pred)
